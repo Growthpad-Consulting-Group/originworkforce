@@ -71,7 +71,7 @@ export default function WhatWeDo() {
                 <div className="flex flex-col gap-6">
                   <ServiceIcon
                     icon={service.icon}
-                    size={40}
+                    size={48}
                     className="text-brand-navy transition-colors duration-500 group-hover:text-brand-gold"
                   />
                   <div>

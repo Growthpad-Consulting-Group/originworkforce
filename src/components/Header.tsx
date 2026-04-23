@@ -36,7 +36,15 @@ export default function Header() {
             : "bg-white shadow-sm"
           }`}
       >
-        <div className="flex h-20 items-center justify-between px-6">
+        <div className="flex h-20 items-center justify-between px-6 relative">
+          {/* Background pattern — white state only */}
+          {!isGlass && (
+            <div
+              className="pointer-events-none absolute inset-0 opacity-2 bg-no-repeat bg-center bg-cover z-0"
+              style={{ backgroundImage: "url('/assets/images/header-bg.svg')" }}
+            />
+          )}
+          <div className="relative z-10 flex w-full items-center justify-between">
           {/* Logo */}
           <Link href="/" className="shrink-0" onClick={() => setMenuOpen(false)}>
             <Image
@@ -59,7 +67,7 @@ export default function Header() {
                     className={`text-xs font-semibold uppercase tracking-widest transition-colors duration-300 ${
                       isGlass
                         ? "text-white/80 hover:text-white"
-                        : "text-brand-gray hover:text-brand-navy"
+                        : "text-brand-navy hover:text-brand-gray"
                     }`}
                   >
                     {label}
@@ -100,6 +108,7 @@ export default function Header() {
               } ${menuOpen ? "-translate-y-2 -rotate-45" : ""}`}
             />
           </button>
+          </div>{/* end z-10 wrapper */}
         </div>
 
         {/* Mobile drawer */}

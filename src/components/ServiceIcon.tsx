@@ -21,7 +21,8 @@ export default function ServiceIcon({ icon, className = "", size = 40 }: Props) 
           alt=""
           width={size}
           height={size}
-          className={`h-auto w-auto ${className}`}
+          style={{ width: size, height: size }}
+          className={className}
         />
       </span>
     );
