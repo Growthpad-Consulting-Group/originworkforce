@@ -2,11 +2,23 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const stats = [
-  { value: 500, suffix: "+", label: "Candidates in Pipeline", gold: true },
-  { value: 9, suffix: "", label: "Workforce Sectors", gold: false },
-  { value: 6, suffix: "+", label: "Workforce Sectors", gold: false },
-  { value: 1, suffix: "st", label: "Workforce Sectors", gold: false },
+type Stat =
+  | { type: "number"; value: number; suffix: string; label: string; gold: boolean }
+  | { type: "text"; display: React.ReactNode; label: string };
+
+const stats: Stat[] = [
+  { type: "number", value: 20, suffix: "+", label: "African Countries", gold: true },
+  {
+    type: "text",
+    display: (
+      <span className="text-3xl font-medium tracking-tight text-white lg:text-5xl">
+        Multi<span className="font-serif italic text-brand-gold">lingual</span>
+      </span>
+    ),
+    label: "English, French, German",
+  },
+  { type: "number", value: 6, suffix: "+", label: "Workforce Sectors", gold: false },
+  { type: "number", value: 1, suffix: "st", label: "Workforce Sectors", gold: false },
 ];
 
 function useCountUp(end: number, duration: number = 2000) {
@@ -25,10 +37,7 @@ function useCountUp(end: number, duration: number = 2000) {
             const progress = Math.min(elapsed / duration, 1);
             const easeOut = 1 - Math.pow(1 - progress, 3);
             setCount(Math.floor(easeOut * end));
-
-            if (progress < 1) {
-              requestAnimationFrame(animate);
-            }
+            if (progress < 1) requestAnimationFrame(animate);
           };
           animate();
         }
@@ -36,35 +45,14 @@ function useCountUp(end: number, duration: number = 2000) {
       { threshold: 0.5 }
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
+    if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, [end, duration, hasAnimated]);
 
   return { count, ref };
 }
 
-export default function StatsBar() {
-  return (
-    <div className="bg-brand-navy">
-      <div className="mx-auto grid max-w-7xl grid-cols-4 divide-x divide-white/10 border-t border-white/10">
-        {stats.map(({ value, suffix, label, gold }) => (
-          <StatItem
-            key={label + value}
-            value={value}
-            suffix={suffix}
-            label={label}
-            gold={gold}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function StatItem({
+function NumberStat({
   value,
   suffix,
   label,
@@ -76,20 +64,41 @@ function StatItem({
   gold: boolean;
 }) {
   const { count, ref } = useCountUp(value);
-
   return (
-    <div ref={ref} className="flex flex-col gap-2 px-10 py-10">
-      <span
-        className={`text-5xl font-bold tracking-tight ${
-          gold ? "text-brand-gold" : "text-white"
-        }`}
-      >
-        {count}
-        {suffix}
+    <div ref={ref} className="flex flex-col gap-2 px-6 py-8 lg:px-10 lg:py-10">
+      <span className={`text-3xl font-medium tracking-tight lg:text-7xl ${gold ? "text-brand-gold" : "text-white"}`}>
+        {count}<span className="font-serif italic">{suffix}</span>
       </span>
-      <span className="text-xs font-semibold uppercase tracking-widest text-white/60">
+      <span className="text-sm font-medium uppercase tracking-widest text-white">
         {label}
       </span>
+    </div>
+  );
+}
+
+function TextStat({ display, label }: { display: React.ReactNode; label: string }) {
+  return (
+    <div className="flex flex-col justify-end gap-2 px-6 py-8 lg:px-10 lg:py-10">
+      {display}
+      <span className="text-sm font-semibold uppercase tracking-widest text-white">
+        {label}
+      </span>
+    </div>
+  );
+}
+
+export default function StatsBar() {
+  return (
+    <div className="bg-brand-navy">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-white/10 border-t border-white/10 lg:grid-cols-4">
+        {stats.map((stat, i) =>
+          stat.type === "number" ? (
+            <NumberStat key={i} value={stat.value} suffix={stat.suffix} label={stat.label} gold={stat.gold} />
+          ) : (
+            <TextStat key={i} display={stat.display} label={stat.label} />
+          )
+        )}
+      </div>
     </div>
   );
 }
