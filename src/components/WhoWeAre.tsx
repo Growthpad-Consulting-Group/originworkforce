@@ -14,8 +14,8 @@ export default function WhoWeAre() {
             fill
             className="object-cover object-top"
           />
-          {/* Quote badge — straddles the image/copy boundary */}
-          <div className="absolute bottom-12 -right-[110px] w-[220px] bg-brand-gold px-6 py-5 z-10">
+          {/* Quote badge — straddles the image/copy boundary, desktop only */}
+          <div className="hidden lg:block absolute bottom-12 -right-[110px] w-[220px] bg-brand-gold px-6 py-5 z-10">
             <p className="font-serif text-base italic leading-snug">
               &ldquo;Execution begins at the source not the destination.&rdquo;
             </p>
