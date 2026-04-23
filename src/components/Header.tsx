@@ -40,12 +40,12 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="shrink-0" onClick={() => setMenuOpen(false)}>
             <Image
-              src="/assets/images/logo.svg"
+              src={isGlass ? "/assets/images/logo-darkmode.svg" : "/assets/images/logo.svg"}
               alt="Origin Workforce"
               width={140}
               height={42}
               priority
-              className={`transition-all duration-500 ${isGlass ? "brightness-0 invert" : ""}`}
+              className="transition-all duration-500"
             />
           </Link>
 

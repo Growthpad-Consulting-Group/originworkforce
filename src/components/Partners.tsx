@@ -3,7 +3,7 @@ import { partners } from "@/data/partners";
 
 export default function Partners() {
   return (
-    <section className="bg-brand-light py-16">
+    <section className="bg-brand-light py-20">
       <div className="mx-auto max-w-7xl px-6">
         {/* Label */}
         <p className="mb-10 text-center text-md font-semibold uppercase tracking-widest text-brand-gold">
