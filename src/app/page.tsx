@@ -8,6 +8,7 @@ import ImpactStories from "@/components/ImpactStories";
 import WorkforceCategories from "@/components/WorkforceCategories";
 import TalentNetwork from "@/components/TalentNetwork";
 import BuiltFromNairobi from "@/components/BuiltFromNairobi";
+import ContactCTA from "@/components/ContactCTA";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
       <WorkforceCategories />
       <TalentNetwork />
       <BuiltFromNairobi />
+      <ContactCTA />
     </>
   );
 }

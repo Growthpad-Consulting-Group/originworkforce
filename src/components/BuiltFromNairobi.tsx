@@ -8,7 +8,7 @@ export default function BuiltFromNairobi() {
           backgroundImage: "url('/assets/images/built-nairobi-bg.png')",
           backgroundAttachment: "fixed",
           backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundPosition: "top",
         }}
       />
 
