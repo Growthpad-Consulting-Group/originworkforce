@@ -7,6 +7,7 @@ import WhyChooseUs from "@/components/WhyChooseUs";
 import ImpactStories from "@/components/ImpactStories";
 import WorkforceCategories from "@/components/WorkforceCategories";
 import TalentNetwork from "@/components/TalentNetwork";
+import BuiltFromNairobi from "@/components/BuiltFromNairobi";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <ImpactStories />
       <WorkforceCategories />
       <TalentNetwork />
+      <BuiltFromNairobi />
     </>
   );
 }
