@@ -16,8 +16,61 @@ const crimsonPro = Crimson_Pro({
 });
 
 export const metadata: Metadata = {
-  title: "Origin Workforce",
-  description: "Trusted origin execution for global workforce mobility from Africa.",
+  metadataBase: new URL("https://originworkforce.africa"),
+  title: {
+    default: "Origin Workforce — Global Workforce Mobility from Africa",
+    template: "%s | Origin Workforce",
+  },
+  description:
+    "Origin Workforce provides trusted origin-side execution for international workforce mobility from Africa. Candidate sourcing, screening, compliance, and deployment support.",
+  keywords: [
+    "workforce mobility Africa",
+    "origin recruitment Kenya",
+    "international labour supply Africa",
+    "candidate sourcing Nairobi",
+    "workforce compliance Africa",
+    "global staffing Africa",
+    "labour migration Kenya",
+  ],
+  authors: [{ name: "Origin Workforce", url: "https://originworkforce.africa" }],
+  creator: "Origin Workforce",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://originworkforce.africa",
+    siteName: "Origin Workforce",
+    title: "Origin Workforce — Global Workforce Mobility from Africa",
+    description:
+      "Trusted origin-side execution for international workforce mobility from Africa. Sourcing, screening, compliance and deployment.",
+    images: [
+      {
+        url: "/assets/images/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Origin Workforce — Global Workforce Mobility from Africa",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Origin Workforce — Global Workforce Mobility from Africa",
+    description:
+      "Trusted origin-side execution for international workforce mobility from Africa.",
+    images: ["/assets/images/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
