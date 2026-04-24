@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Icon } from "@iconify/react";
+import { StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
 
 const audiences = [
   { number: "01", label: "Destination Recruiters" },
@@ -43,11 +44,12 @@ export default function WhoWeServe() {
           </div>
 
           {/* Right — numbered list */}
-          <div className="flex flex-col divide-y divide-brand-gray/20 border-t border-brand-gray/20">
+          <StaggerContainer className="flex flex-col divide-y divide-brand-gray/20 border-t border-brand-gray/20">
             {audiences.map(({ number, label }) => (
-              <div
+              <StaggerItem
                 key={number}
                 className="group flex items-center gap-8 py-6 transition-colors duration-300 hover:cursor-default"
+                direction="left"
               >
                 <span className="w-10 shrink-0 font-serif text-4xl italic text-brand-gold">
                   {number}
@@ -61,9 +63,9 @@ export default function WhoWeServe() {
                   height={30}
                   className="shrink-0 text-brand-navy opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:text-brand-gold"
                 />
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
 
         </div>
       </div>

@@ -5,6 +5,7 @@ import { useRef, useState, useEffect } from "react";
 import { services } from "@/data/services";
 import ServiceIcon from "@/components/ServiceIcon";
 import { Icon } from "@iconify/react";
+import { StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
 
 function useVisible() {
   const [visible, setVisible] = useState(3);
@@ -56,14 +57,14 @@ export default function WhatWeDo() {
 
         {/* Cards carousel */}
         <div className="overflow-hidden" ref={trackRef}>
-          <div
+          <StaggerContainer
             className="flex gap-6 transition-transform duration-500 ease-in-out"
             style={{
               transform: `translateX(calc(-${clampedCurrent} * (100% / ${visible} + ${24 / visible}px)))`,
             }}
           >
             {services.map((service) => (
-              <div
+              <StaggerItem
                 key={service.title}
                 className="group flex shrink-0 flex-col justify-between border border-brand-gray/15 bg-white p-8 transition-colors duration-500 hover:bg-brand-navy"
                 style={{ width: `calc((100% - ${(visible - 1) * 24}px) / ${visible})` }}
@@ -89,9 +90,9 @@ export default function WhatWeDo() {
                 >
                   Learn More
                 </Link>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
         </div>
 
         {/* Footer row */}

@@ -43,6 +43,8 @@ const jsonLd = {
   sameAs: [],
 };
 
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
+
 export default function Home() {
   return (
     <>
@@ -50,17 +52,39 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Hero />
-      <Partners />
-      <WhoWeAre />
-      <WhatWeDo />
-      <WhoWeServe />
-      <WhyChooseUs />
-      <ImpactStories />
-      <WorkforceCategories />
-      <TalentNetwork />
-      <BuiltFromNairobi />
-      <ContactCTA />
+      <ScrollReveal delay={0.1}>
+        <Hero />
+      </ScrollReveal>
+      <ScrollReveal>
+        <Partners />
+      </ScrollReveal>
+      <ScrollReveal>
+        <WhoWeAre />
+      </ScrollReveal>
+      <ScrollReveal>
+        <WhatWeDo />
+      </ScrollReveal>
+      <ScrollReveal>
+        <WhoWeServe />
+      </ScrollReveal>
+      <ScrollReveal>
+        <WhyChooseUs />
+      </ScrollReveal>
+      <ScrollReveal>
+        <ImpactStories />
+      </ScrollReveal>
+      <ScrollReveal>
+        <WorkforceCategories />
+      </ScrollReveal>
+      <ScrollReveal>
+        <TalentNetwork />
+      </ScrollReveal>
+      <ScrollReveal>
+        <BuiltFromNairobi />
+      </ScrollReveal>
+      <ScrollReveal>
+        <ContactCTA />
+      </ScrollReveal>
     </>
   );
 }

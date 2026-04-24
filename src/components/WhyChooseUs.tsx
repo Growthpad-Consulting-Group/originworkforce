@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
 
 const reasons = [
   {
@@ -64,14 +65,14 @@ export default function WhyChooseUs() {
         </div>
 
         {/* Right — numbered reasons */}
-        <div className="flex flex-col divide-y divide-white/10 border-t border-white/10 lg:border-l lg:border-t-0 lg:border-white/10">
+        <StaggerContainer className="flex flex-col divide-y divide-white/10 border-t border-white/10 lg:border-l lg:border-t-0 lg:border-white/10">
           {/* Decorative bg image */}
           <div
             className="h-28 w-full bg-cover bg-center opacity-5 brightness-0 invert"
             style={{ backgroundImage: "url('/assets/images/header-bg.svg')" }}
           />
           {reasons.map(({ number, title, description }) => (
-            <div key={number} className="flex gap-8 px-8 py-10 lg:px-12">
+            <StaggerItem key={number} className="flex gap-8 px-8 py-10 lg:px-12" direction="left">
               <span className="w-10 shrink-0 font-serif text-4xl italic text-brand-gold">
                 {number}
               </span>
@@ -83,7 +84,7 @@ export default function WhyChooseUs() {
                   {description}
                 </p>
               </div>
-            </div>
+            </StaggerItem>
           ))}
           <div
             className="h-28 w-full bg-cover bg-center opacity-5 brightness-0 invert"
@@ -94,7 +95,7 @@ export default function WhyChooseUs() {
             style={{ backgroundImage: "url('/assets/images/header-bg.svg')" }}
           />
 
-        </div>
+        </StaggerContainer>
 
       </div>
     </section>

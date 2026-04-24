@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { partners } from "@/data/partners";
+import { StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
 
 export default function Partners() {
   return (
@@ -11,7 +12,7 @@ export default function Partners() {
         </p>
 
         {/* Logo grid */}
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        <StaggerContainer className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
           {partners.map(({ name, logo, url }) => {
             const inner = logo ? (
               <Image
@@ -29,7 +30,7 @@ export default function Partners() {
             );
 
             return (
-              <div
+              <StaggerItem
                 key={name}
                 className="flex min-h-[120px] items-center justify-center bg-white px-6 py-2 shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-lg"
               >
@@ -45,10 +46,10 @@ export default function Partners() {
                 ) : (
                   inner
                 )}
-              </div>
+              </StaggerItem>
             );
           })}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );
