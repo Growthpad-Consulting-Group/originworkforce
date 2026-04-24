@@ -35,7 +35,7 @@ export default function WhatWeDo() {
 
   return (
     <section className="bg-brand-light py-16 lg:py-24">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-7xl px-6 md:px-2">
 
         {/* Header row */}
         <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-2 justify-items-end items-center">

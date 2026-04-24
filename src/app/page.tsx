@@ -3,6 +3,7 @@ import Partners from "@/components/Partners";
 import WhoWeAre from "@/components/WhoWeAre";
 import WhatWeDo from "@/components/WhatWeDo";
 import WhoWeServe from "@/components/WhoWeServe";
+import WhyChooseUs from "@/components/WhyChooseUs";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <WhoWeAre />
       <WhatWeDo />
       <WhoWeServe />
+      <WhyChooseUs />
     </>
   );
 }

@@ -4,7 +4,7 @@ import { partners } from "@/data/partners";
 export default function Partners() {
   return (
     <section className="bg-brand-light py-20">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-7xl px-6 md:px-2">
         {/* Label */}
         <p className="mb-10 text-center text-md font-semibold uppercase tracking-widest text-brand-gold">
           Trusted Partners &amp; Affiliate

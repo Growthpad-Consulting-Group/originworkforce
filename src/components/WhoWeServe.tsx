@@ -13,7 +13,7 @@ const audiences = [
 export default function WhoWeServe() {
   return (
     <section className="bg-white py-20 lg:py-28">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-7xl px-6 md:px-2">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24">
 
           {/* Left — copy */}
@@ -49,10 +49,10 @@ export default function WhoWeServe() {
                 key={number}
                 className="group flex items-center gap-8 py-6 transition-colors duration-300 hover:cursor-default"
               >
-                <span className="w-10 shrink-0 font-serif font-semibold text-4xl italic text-brand-gold">
+                <span className="w-10 shrink-0 font-serif text-4xl italic text-brand-gold">
                   {number}
                 </span>
-                <span className="flex-1 text-xl font-medium text-brand-navy transition-colors duration-300 group-hover:text-brand-gold lg:text-3xl">
+                <span className="flex-1 text-xl font-semibold text-brand-navy transition-colors duration-300 group-hover:text-brand-gold lg:text-2xl">
                   {label}
                 </span>
                 <Icon
