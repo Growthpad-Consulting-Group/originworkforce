@@ -5,6 +5,7 @@ import WhatWeDo from "@/components/WhatWeDo";
 import WhoWeServe from "@/components/WhoWeServe";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import ImpactStories from "@/components/ImpactStories";
+import WorkforceCategories from "@/components/WorkforceCategories";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <WhoWeServe />
       <WhyChooseUs />
       <ImpactStories />
+      <WorkforceCategories />
     </>
   );
 }
