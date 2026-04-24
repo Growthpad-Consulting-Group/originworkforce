@@ -38,12 +38,12 @@ export default function WhatWeDo() {
       <div className="mx-auto max-w-7xl px-6">
 
         {/* Header row */}
-        <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-end">
+        <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-2 justify-items-end items-center">
           <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-brand-gold">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brand-gold">
               What We Do
             </p>
-            <h2 className="text-4xl font-medium leading-tight text-brand-navy lg:text-5xl">
+            <h2 className="text-4xl font-medium text-brand-navy lg:text-5xl">
               We make source-market{" "}
               <span className="font-serif italic text-brand-gold">hiring work</span>
             </h2>
@@ -75,10 +75,10 @@ export default function WhatWeDo() {
                     className="text-brand-navy transition-colors duration-500 group-hover:text-brand-gold"
                   />
                   <div>
-                    <h3 className="mb-3 text-xl font-medium text-brand-navy transition-colors duration-500 group-hover:text-brand-gold">
+                    <h3 className="mb-3 text-2xl font-medium text-brand-navy transition-colors duration-500 group-hover:text-brand-gold">
                       {service.title}
                     </h3>
-                    <p className="text-sm leading-relaxed text-brand-gray transition-colors duration-500 group-hover:text-white/70">
+                    <p className="text-md leading-relaxed text-brand-gray transition-colors duration-500 group-hover:text-white/70">
                       {service.description}
                     </p>
                   </div>
