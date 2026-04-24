@@ -6,6 +6,7 @@ import WhoWeServe from "@/components/WhoWeServe";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import ImpactStories from "@/components/ImpactStories";
 import WorkforceCategories from "@/components/WorkforceCategories";
+import TalentNetwork from "@/components/TalentNetwork";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <WhyChooseUs />
       <ImpactStories />
       <WorkforceCategories />
+      <TalentNetwork />
     </>
   );
 }

@@ -25,5 +25,6 @@ body {
   background: var(--color-brand-navy);
   color: var(--foreground);
   font-family: var(--font-figtree), sans-serif;
+  scrollbar-gutter: stable;
 }
 
