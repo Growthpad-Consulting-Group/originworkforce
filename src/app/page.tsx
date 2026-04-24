@@ -4,6 +4,7 @@ import WhoWeAre from "@/components/WhoWeAre";
 import WhatWeDo from "@/components/WhatWeDo";
 import WhoWeServe from "@/components/WhoWeServe";
 import WhyChooseUs from "@/components/WhyChooseUs";
+import ImpactStories from "@/components/ImpactStories";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <WhatWeDo />
       <WhoWeServe />
       <WhyChooseUs />
+      <ImpactStories />
     </>
   );
 }
