@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
 
 const differentiators = [
   {
@@ -30,6 +31,7 @@ export default function MoreThanRecruitment() {
 
         {/* Left — bleeds to the left edge, copy sits inside with padding */}
         <div className="flex flex-col gap-10 py-16 lg:py-24 pl-6 pr-6 lg:pl-[max(2rem,calc((100vw-80rem)/2))] lg:pr-12">
+          <ScrollReveal>
           <div className="flex flex-col gap-5">
             <p className="text-sm font-semibold uppercase tracking-widest text-brand-gold">
               What Makes Us Different
@@ -46,6 +48,7 @@ export default function MoreThanRecruitment() {
               foundation for scale and a more credible workforce mobility model.
             </p>
           </div>
+          </ScrollReveal>
 
           {/* Image bleeds to the left */}
           <div className="relative h-[320px] lg:h-[380px] -ml-6 lg:-ml-[max(2rem,calc((100vw-80rem)/2))] overflow-hidden">
@@ -60,9 +63,9 @@ export default function MoreThanRecruitment() {
         </div>
 
         {/* Right — numbered list, padded normally */}
-        <div className="flex flex-col divide-y divide-white/10 py-16 lg:py-24 px-6 lg:px-16 xl:pr-[max(4rem,calc((100vw-80rem)/2))]">
+        <StaggerContainer className="flex flex-col divide-y divide-white/10 py-16 lg:py-24 px-6 lg:px-16 xl:pr-[max(4rem,calc((100vw-80rem)/2))]">
           {differentiators.map(({ number, title, description }) => (
-            <div key={number} className="flex gap-6 py-8 first:pt-0 last:pb-0">
+            <StaggerItem key={number} className="flex gap-6 py-8 first:pt-0 last:pb-0">
               <span className="shrink-0 font-serif text-3xl italic text-brand-gold w-10">
                 {number}
               </span>
@@ -70,9 +73,9 @@ export default function MoreThanRecruitment() {
                 <h3 className="text-2xl font-semibold text-white">{title}</h3>
                 <p className="text-md leading-relaxed text-white/60">{description}</p>
               </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
 
       </div>
     </section>

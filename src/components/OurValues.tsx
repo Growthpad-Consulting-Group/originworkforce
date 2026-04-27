@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
+import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
 
 const values = [
   {
@@ -40,6 +41,7 @@ export default function OurValues() {
       <div className="mx-auto max-w-7xl px-6 md:px-2">
 
         {/* Header row */}
+        <ScrollReveal>
         <div className="mb-12 grid grid-cols-1 gap-6 lg:grid-cols-2 items-end">
           <div>
             <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-brand-gold">
@@ -58,6 +60,7 @@ export default function OurValues() {
             every time.
           </p>
         </div>
+        </ScrollReveal>
 
         {/* Two-column body */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16 items-start">

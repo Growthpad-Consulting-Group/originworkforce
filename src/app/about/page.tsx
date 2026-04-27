@@ -6,7 +6,7 @@ import MissionVision from "@/components/MissionVision";
 import OurValues from "@/components/OurValues";
 import GeographicFocus from "@/components/GeographicFocus";
 import AboutCTA from "@/components/AboutCTA";
-import FadeInSection from "@/components/FadeInSection";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -19,12 +19,12 @@ export default function AboutPage() {
   return (
     <>
       <AboutHero />
-      <FadeInSection><WhyOriginExists /></FadeInSection>
-      <FadeInSection><MoreThanRecruitment /></FadeInSection>
-      <FadeInSection><MissionVision /></FadeInSection>
-      <FadeInSection><OurValues /></FadeInSection>
-      <FadeInSection><GeographicFocus /></FadeInSection>
-      <FadeInSection><AboutCTA /></FadeInSection>
+      <ScrollReveal><WhyOriginExists /></ScrollReveal>
+      <ScrollReveal><MoreThanRecruitment /></ScrollReveal>
+      <ScrollReveal><MissionVision /></ScrollReveal>
+      <ScrollReveal><OurValues /></ScrollReveal>
+      <ScrollReveal><GeographicFocus /></ScrollReveal>
+      <ScrollReveal><AboutCTA /></ScrollReveal>
     </>
   );
 }
