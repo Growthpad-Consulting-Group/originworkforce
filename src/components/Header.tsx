@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { navLinks } from "@/data/nav";
 import { useEffect, useState } from "react";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -60,20 +62,22 @@ export default function Header() {
           {/* Desktop nav */}
           <nav aria-label="Main navigation" className="hidden lg:block">
             <ul className="flex items-center gap-8">
-              {navLinks.map(({ label, href }) => (
-                <li key={href}>
-                  <Link
-                    href={href}
-                    className={`text-xs font-semibold uppercase tracking-widest transition-colors duration-300 ${
-                      isGlass
-                        ? "text-white/80 hover:text-white"
-                        : "text-brand-navy hover:text-brand-gray"
-                    }`}
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
+              {navLinks.map(({ label, href }) => {
+                const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);
+                return (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      className={`relative text-xs font-semibold uppercase tracking-widest transition-colors duration-300
+                        after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-brand-gold after:transition-transform after:duration-300 hover:after:scale-x-100
+                        ${isActive ? "text-brand-gold after:scale-x-100" : isGlass ? "text-white/80 hover:text-white" : "text-brand-navy hover:text-brand-gray"}
+                      `}
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
 
@@ -119,17 +123,22 @@ export default function Header() {
         >
           <nav className="flex flex-col border-t border-white/10 px-6 pb-6 pt-4">
             <ul className="flex flex-col gap-1">
-              {navLinks.map(({ label, href }) => (
-                <li key={href}>
-                  <Link
-                    href={href}
-                    onClick={() => setMenuOpen(false)}
-                    className="block py-3 text-sm font-semibold uppercase tracking-widest text-white/80 transition-colors hover:text-white"
-                  >
-                    {label}
-                  </Link>
-                </li>
-              ))}
+              {navLinks.map(({ label, href }) => {
+                const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);
+                return (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      onClick={() => setMenuOpen(false)}
+                      className={`block py-3 text-sm font-semibold uppercase tracking-widest transition-colors ${
+                        isActive ? "text-brand-gold" : "text-white/80 hover:text-white"
+                      }`}
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
             <Link
               href="/partner"
