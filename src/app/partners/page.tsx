@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import PartnersHero from "@/components/partners/PartnersHero";
 import WhoWeServePartners from "@/components/partners/WhoWeServePartners";
+import WhatYouGain from "@/components/partners/WhatYouGain";
+import PartnersCTA from "@/components/partners/PartnersCTA";
 
 export const metadata: Metadata = {
   title: "Partners",
@@ -14,6 +16,8 @@ export default function PartnersPage() {
     <>
       <PartnersHero />
       <WhoWeServePartners />
+      <WhatYouGain />
+      <PartnersCTA />
     </>
   );
 }
