@@ -36,7 +36,7 @@ export default function WhoWeServe() {
             </div>
 
             <Link
-              href="/partner"
+              href="/partners"
               className="self-start border border-brand-navy px-8 py-4 text-xs font-semibold uppercase tracking-widest text-brand-navy transition-colors duration-300 hover:bg-brand-navy hover:text-white"
             >
               Explore Partner Options

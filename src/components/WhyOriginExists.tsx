@@ -50,7 +50,7 @@ export default function WhyOriginExists() {
         </ScrollReveal>
         <ScrollReveal delay={0.2}>
           <Link
-            href="/partner"
+            href="/partners"
             className="self-start bg-brand-gold px-8 py-4 text-xs font-semibold uppercase tracking-widest text-brand-navy transition-colors duration-300 hover:bg-brand-gold/80"
           >
             Partner With Us

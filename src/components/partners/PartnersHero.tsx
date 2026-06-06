@@ -25,7 +25,7 @@ export default function PartnersHero() {
           </div>
           <div className="flex flex-wrap gap-4">
             <Link
-              href="/demand"
+              href="/contact"
               className="bg-brand-gold px-8 py-4 text-xs font-semibold uppercase tracking-widest text-brand-navy transition-colors duration-300 hover:bg-brand-gold/80"
             >
               Submit Demand

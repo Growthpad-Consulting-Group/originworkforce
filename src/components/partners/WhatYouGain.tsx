@@ -43,7 +43,7 @@ export default function WhatYouGain() {
                 </p>
               </div>
               <Link
-                href="/demand"
+                href="/contact"
                 className="mt-6 self-start border border-white/30 px-8 py-4 text-xs font-semibold uppercase tracking-widest text-white transition-colors duration-300 hover:border-white hover:bg-white/10 inline-block"
               >
                 Submit Workforce Demand

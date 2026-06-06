@@ -31,7 +31,7 @@ export default function ContactCTA() {
               Talk to Our Team
             </Link>
             <Link
-              href="/demand"
+              href="/contact"
               className="border border-white/30 px-8 py-4 text-xs font-semibold uppercase tracking-widest text-white transition-colors duration-300 hover:border-white hover:bg-white/10"
             >
               Submit Workforce Demand
@@ -89,7 +89,7 @@ export default function ContactCTA() {
               approved international pathways.
             </p>
             <Link
-              href="/talent"
+              href="/contact"
               className="self-start mt-1 text-xs font-semibold uppercase tracking-widest text-brand-gold hover:underline underline-offset-4 hover:text-brand-gold/70 transition-colors duration-200"
             >
               Talk to Our Team

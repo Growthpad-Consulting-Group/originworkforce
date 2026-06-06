@@ -46,7 +46,7 @@ export default function WhyChooseUs() {
               matter most.
             </p>
             <Link
-              href="/partner"
+              href="/partners"
               className="self-start border border-white/30 px-8 py-4 text-xs font-semibold uppercase tracking-widest text-white transition-colors duration-300 hover:bg-white hover:text-brand-navy"
             >
               Explore Partner Options

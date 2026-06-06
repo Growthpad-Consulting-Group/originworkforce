@@ -31,13 +31,13 @@ export default function Hero() {
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
               <Link
-                href="/partner"
+                href="/partners"
                 className="bg-brand-gold px-6 py-3 text-center text-xs font-semibold uppercase tracking-widest transition-colors hover:bg-brand-gold/80"
               >
                 Partner With Us
               </Link>
               <Link
-                href="/model"
+                href="/services"
                 className="border border-white/40 px-6 py-3 text-center text-xs font-semibold uppercase tracking-widest text-white transition-colors hover:border-white hover:bg-white/10"
               >
                 See Our Model Work

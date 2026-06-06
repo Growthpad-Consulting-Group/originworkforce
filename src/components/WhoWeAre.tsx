@@ -15,7 +15,7 @@ export default function WhoWeAre() {
             className="object-cover object-top"
           />
           {/* Quote badge — straddles the image/copy boundary, desktop only */}
-          <div className="hidden lg:block absolute bottom-12 -right-[110px] w-[220px] bg-brand-gold px-6 py-5 z-10">
+          <div className="hidden lg:block absolute bottom-12 right-[-110px] w-[220px] bg-brand-gold px-6 py-5 z-10">
             <p className="font-serif text-base italic leading-snug">
               &ldquo;Execution begins at the source not the destination.&rdquo;
             </p>
@@ -46,7 +46,7 @@ export default function WhoWeAre() {
 
           <div className="pt-2">
             <Link
-              href="/partner"
+              href="/partners"
               className="inline-block bg-brand-gold px-12 py-4 text-xs font-semibold uppercase tracking-widest transition-colors duration-300 hover:bg-brand-navy"
             >
               Partner With Us

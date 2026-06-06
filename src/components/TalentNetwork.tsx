@@ -63,7 +63,7 @@ export default function TalentNetwork() {
             screened, and prepared for international workforce opportunities.
           </p>
           <Link
-            href="/talent"
+            href="/contact"
             className="self-start bg-brand-gold border border-brand-gold px-8 py-4 text-xs font-semibold uppercase tracking-widest text-brand-navy transition-colors duration-300 hover:bg-transparent hover:text-white mt-2"
           >
             Join the Talent Network

@@ -83,7 +83,7 @@ export default function Header() {
 
           {/* Desktop CTA */}
           <Link
-            href="/partner"
+            href="/partners"
             className="hidden lg:block shrink-0 bg-brand-gold px-6 py-4 text-xs font-semibold uppercase tracking-widest text-white transition-colors hover:bg-brand-navy"
           >
             Partner With Us
@@ -141,7 +141,7 @@ export default function Header() {
               })}
             </ul>
             <Link
-              href="/partner"
+              href="/partners"
               onClick={() => setMenuOpen(false)}
               className="mt-6 block bg-brand-gold px-6 py-4 text-center text-xs font-semibold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-brand-navy"
             >

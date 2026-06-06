@@ -28,7 +28,7 @@ export default function ServicesCTA() {
                 Talk to Our Team
               </Link>
               <Link
-                href="/demand"
+                href="/contact"
                 className="border border-brand-navy px-10 py-4 text-xs font-semibold uppercase tracking-widest text-brand-navy transition-colors duration-300 hover:bg-brand-navy hover:text-white"
               >
                 Submit Demand
