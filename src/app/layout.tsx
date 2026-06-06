@@ -18,11 +18,11 @@ const crimsonPro = Crimson_Pro({
 export const metadata: Metadata = {
   metadataBase: new URL("https://originworkforce.africa"),
   title: {
-    default: "Origin Workforce — Global Workforce Mobility from Africa",
+    default: "Origin Workforce | Global Workforce Mobility from Africa",
     template: "%s | Origin Workforce",
   },
   description:
-    "Origin Workforce provides trusted origin-side execution for international workforce mobility from Africa. Candidate sourcing, screening, compliance, and deployment support.",
+    "Origin Workforce helps global recruiters, staffing firms, and labour mobility operators source, screen, prepare, and mobilise workforce talent from Africa.",
   keywords: [
     "workforce mobility Africa",
     "origin recruitment Kenya",
@@ -39,23 +39,23 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://originworkforce.africa",
     siteName: "Origin Workforce",
-    title: "Origin Workforce — Global Workforce Mobility from Africa",
+    title: "Origin Workforce | Global Workforce Mobility from Africa",
     description:
-      "Trusted origin-side execution for international workforce mobility from Africa. Sourcing, screening, compliance and deployment.",
+      "Origin Workforce helps global recruiters, staffing firms, and labour mobility operators source, screen, prepare, and mobilise workforce talent from Africa.",
     images: [
       {
         url: "/assets/images/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Origin Workforce — Global Workforce Mobility from Africa",
+        alt: "Origin Workforce | Global Workforce Mobility from Africa",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Origin Workforce — Global Workforce Mobility from Africa",
+    title: "Origin Workforce | Global Workforce Mobility from Africa",
     description:
-      "Trusted origin-side execution for international workforce mobility from Africa.",
+      "Origin Workforce helps global recruiters, staffing firms, and labour mobility operators source, screen, prepare, and mobilise workforce talent from Africa.",
     images: ["/assets/images/og-image.png"],
   },
   robots: {

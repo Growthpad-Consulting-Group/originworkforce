@@ -87,8 +87,15 @@ export default function Footer() {
       {/* Divider */}
       <div className="border-t border-brand-gray/20" />
 
+      {/* Footer Note */}
+      <div className="mx-auto max-w-7xl px-6 md:px-2 pt-8 pb-4">
+        <p className="text-sm text-brand-gray/80 text-center">
+          Origin Workforce works with approved partners and lawful workforce mobility pathways.
+        </p>
+      </div>
+
       {/* Big wordmark */}
-      <div className="overflow-hidden px-4 py-6 select-none text-center">
+      <div className="overflow-hidden px-4 pb-8 select-none text-center">
         <p
           className="font-sans font-medium text-brand-navy leading-none whitespace-nowrap"
           style={{ fontSize: "clamp(2.5rem, 10vw, 10rem)" }}

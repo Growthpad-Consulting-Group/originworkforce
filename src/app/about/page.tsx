@@ -9,7 +9,9 @@ import AboutCTA from "@/components/AboutCTA";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 export const metadata: Metadata = {
-  title: "About Us",
+  title: {
+    absolute: "About Origin Workforce | Trusted Origin Execution Partner",
+  },
   description:
     "Origin Workforce is a workforce mobility company focused on the origin side of global hiring — built to manage the source side with discipline, structure, and care.",
   alternates: { canonical: "https://originworkforce.africa/about" },

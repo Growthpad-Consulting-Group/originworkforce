@@ -12,9 +12,11 @@ import BuiltFromNairobi from "@/components/BuiltFromNairobi";
 import ContactCTA from "@/components/ContactCTA";
 
 export const metadata: Metadata = {
-  title: "Trusted Origin Execution for Global Workforce Mobility",
+  title: {
+    absolute: "Origin Workforce | Global Workforce Mobility from Africa",
+  },
   description:
-    "Origin Workforce connects international employers and recruiters with work-ready talent from Africa. Structured sourcing, screening, compliance and deployment from Nairobi.",
+    "Origin Workforce helps global recruiters, staffing firms, and labour mobility operators source, screen, prepare, and mobilise workforce talent from Africa.",
   alternates: {
     canonical: "https://originworkforce.africa",
   },
