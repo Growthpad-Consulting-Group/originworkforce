@@ -16,6 +16,7 @@ export const services: Service[] = [
       "We source workforce talent through local outreach, targeted sourcing campaigns, community referrals, referral ecosystems, and practical assessment channels aligned to partner requirements.\n\n*We build pipelines with a focus on visibility, relevance, and scale.*",
     href: "/services/candidate-sourcing",
     icon: "/assets/images/icons/candidate-sourcing.svg",
+    image: "/assets/images/candidate-sourcing.jpg",
   },
   {
     title: "Screening and Shortlisting",
@@ -25,6 +26,7 @@ export const services: Service[] = [
       "We evaluate candidates against a firm criteria including work readiness, basic communications, availability, suitability for deployment, and role-specific requirements.\n\n*Our goal is to improve candidate quality before destination-side processing begins.*",
     href: "/services/screening-shortlisting",
     icon: "/assets/images/icons/screening.svg",
+    image: "/assets/images/screening-shortlisting.jpg",
   },
   {
     title: "Workforce Readiness Support",
@@ -34,6 +36,7 @@ export const services: Service[] = [
       "Successful deployment depends on more than candidate selection. We help prepare workers through pre-arrival orientation, expectation-setting, employer context, and travel readiness support so that selected candidates are better positioned for successful placement.",
     href: "/services/workforce-readiness",
     icon: "/assets/images/icons/workforce-support.svg",
+    image: "/assets/images/workforce-readiness.jpg",
   },
   {
     title: "Documentation and Process Coordination",
@@ -43,6 +46,7 @@ export const services: Service[] = [
       "Successful deployment depends on more than candidate selection. We help prepare workers through pre-arrival orientation, expectation-setting, employer context, and travel readiness support so that selected candidates are better positioned for successful placement.",
     href: "/services/documentation-coordination",
     icon: "lucide:file-text",
+    image: "/assets/images/documentation.jpg",
   },
   {
     title: "Mobilisation Coordination",
@@ -52,6 +56,7 @@ export const services: Service[] = [
       "We help manage the transition from candidate selection to origin-side handoff through structured coordination, communication, and execution tracking.\n\n*This enables partners to move from hiring demand to workforce deployment with more discipline.*",
     href: "/services/mobilisation-coordination",
     icon: "lucide:send",
+    image: "/assets/images/mobilisation-coordination.jpg",
   },
   {
     title: "Partner Reporting and Visibility",
@@ -61,6 +66,7 @@ export const services: Service[] = [
       "Global partners need operational transparency. We provide structured and workflow-centric reports designed to improve pipeline progress, readiness status, and operational relations.",
     href: "/services/partner-reporting",
     icon: "lucide:bar-chart-2",
+    image: "/assets/images/partner-reporting-visibility.jpg",
   },
   {
     title: "Worker Communication and Care Support",
@@ -70,5 +76,6 @@ export const services: Service[] = [
       "Better workforce mobility outcomes require better worker communication and care. We provide a worker-centered process designed to improve clarity, preparedness, and trust throughout the origin-side journey.",
     href: "/services/worker-communication-care",
     icon: "lucide:heart-handshake",
+    image: "/assets/images/worker-communication.jpg",
   },
 ];
