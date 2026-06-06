@@ -7,7 +7,7 @@ import { navLinks } from "@/data/nav";
 
 const footerLinks = [
   ...navLinks,
-  { label: "Talent Network", href: "/talent" },
+  // { label: "Talent Network", href: "/talent" },
 ];
 
 export default function Footer() {
