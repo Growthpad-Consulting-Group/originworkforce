@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { PortableText } from "@portabletext/react";
-import { getPosts, getPostBySlug, urlFor, type SanityPost } from "@/lib/sanity";
+import { getPosts, getPostBySlug, urlFor, blocksToText, calculateReadTime, type SanityPost } from "@/lib/sanity";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
 
 // ─── PortableText Rendering Components ────────────────────────────────────────
@@ -78,13 +78,19 @@ export async function generateMetadata({
     return { title: "Article Not Found" };
   }
 
+  const metaTitle = post.seoTitle || post.title;
+  const metaDescription =
+    post.seoDescription ||
+    post.excerpt ||
+    (post.body ? `${blocksToText(post.body).slice(0, 155)}...` : "");
+
   return {
-    title: post.title,
-    description: post.excerpt,
+    title: metaTitle,
+    description: metaDescription,
     alternates: { canonical: `https://originworkforce.africa/insights/${post.slug}` },
     openGraph: {
-      title: post.title,
-      description: post.excerpt,
+      title: metaTitle,
+      description: metaDescription,
       url: `https://originworkforce.africa/insights/${post.slug}`,
       type: "article",
       publishedTime: post.date,
@@ -106,6 +112,7 @@ function formatDate(iso: string) {
 
 function RelatedCard({ post }: { post: SanityPost }) {
   const coverImageUrl = post.coverImage ? urlFor(post.coverImage)?.width(600).height(400).url() : null;
+  const excerpt = post.excerpt || (post.body ? `${blocksToText(post.body).slice(0, 120)}...` : "");
 
   return (
     <Link
@@ -130,13 +137,13 @@ function RelatedCard({ post }: { post: SanityPost }) {
       </div>
       <div className="flex flex-col gap-2 p-5 flex-1">
         <span className="text-xs font-semibold uppercase tracking-widest text-brand-gold">
-          {post.category}
+          {post.category || "General"}
         </span>
         <h3 className="text-xl font-semibold text-brand-navy leading-snug group-hover:text-brand-gold transition-colors duration-200">
           {post.title}
         </h3>
         <p className="text-md text-brand-gray leading-relaxed line-clamp-2 mt-auto">
-          {post.excerpt}
+          {excerpt}
         </p>
       </div>
     </Link>
@@ -157,8 +164,9 @@ export default async function InsightArticlePage({
 
   const allPosts = await getPosts();
 
+  const postCategory = post.category || "General";
   const related = allPosts
-    .filter((p) => p.slug !== post.slug && p.category === post.category)
+    .filter((p) => p.slug !== post.slug && (p.category || "General") === postCategory)
     .slice(0, 3);
 
   // If fewer than 3 from same category, pad with recents from other categories
@@ -167,12 +175,14 @@ export default async function InsightArticlePage({
       ? [
           ...related,
           ...allPosts
-            .filter((p) => p.slug !== post.slug && p.category !== post.category)
+            .filter((p) => p.slug !== post.slug && (p.category || "General") !== postCategory)
             .slice(0, 3 - related.length),
         ]
       : related;
 
   const heroImageUrl = post.coverImage ? urlFor(post.coverImage)?.width(1600).height(600).url() : null;
+  const excerpt = post.excerpt || (post.body ? `${blocksToText(post.body).slice(0, 160)}...` : "");
+  const readTime = post.readTime || (post.body ? calculateReadTime(post.body) : "3 min read");
 
   return (
     <main className="bg-brand-light min-h-screen">
@@ -208,13 +218,13 @@ export default async function InsightArticlePage({
           {/* Meta row */}
           <div className="flex items-center gap-3 mb-4">
             <span className="bg-brand-gold px-3 py-1 text-xs font-semibold uppercase tracking-widest text-brand-navy">
-              {post.category}
+              {post.category || "General"}
             </span>
             <span className="text-xs text-white/60">
               Published on <time dateTime={post.date}>{formatDate(post.date)}</time>
             </span>
             <span className="text-xs text-white/40">·</span>
-            <span className="text-xs text-white/60">{post.readTime}</span>
+            <span className="text-xs text-white/60">{readTime}</span>
           </div>
 
           {/* Title */}
@@ -233,7 +243,7 @@ export default async function InsightArticlePage({
             </article>
           ) : (
             <article>
-              <p className="text-brand-gray leading-relaxed text-lg mb-6">{post.excerpt}</p>
+              <p className="text-brand-gray leading-relaxed text-lg mb-6">{excerpt}</p>
               <div className="rounded-sm border border-brand-gold/30 bg-brand-gold/5 px-6 py-5">
                 <p className="text-sm font-medium text-brand-navy italic font-serif">
                   Article content will be loaded from Sanity CMS once available.

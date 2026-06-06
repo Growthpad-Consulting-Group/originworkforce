@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
 import { type Post } from "@/data/insights";
-import { urlFor, type SanityPost } from "@/lib/sanity";
+import { urlFor, blocksToText, calculateReadTime, type SanityPost } from "@/lib/sanity";
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -23,6 +23,9 @@ function formatDate(iso: string) {
 
 function PostCard({ post }: { post: SanityPost }) {
   const coverImageUrl = post.coverImage ? urlFor(post.coverImage)?.width(600).height(400).url() : null;
+  const excerpt = post.excerpt || (post.body ? `${blocksToText(post.body).slice(0, 140)}...` : "");
+  const readTime = post.readTime || (post.body ? calculateReadTime(post.body) : "3 min read");
+  const category = post.category || "General";
 
   return (
     <Link
@@ -44,11 +47,11 @@ function PostCard({ post }: { post: SanityPost }) {
         )}
       </div>
       <div className="flex flex-col gap-3 p-6 flex-1">
-        <span className="text-xs font-semibold uppercase tracking-widest text-brand-gold">{post.category}</span>
+        <span className="text-xs font-semibold uppercase tracking-widest text-brand-gold">{category}</span>
         <h3 className="text-xl font-semibold text-brand-navy leading-snug group-hover:text-brand-gold transition-colors duration-200">{post.title}</h3>
-        <p className="text-md text-brand-gray leading-relaxed line-clamp-3">{post.excerpt}</p>
+        <p className="text-md text-brand-gray leading-relaxed line-clamp-3">{excerpt}</p>
         <div className="flex items-center gap-2 text-xs text-brand-gray/70 mt-auto pt-2 border-t border-brand-gray/10">
-          <span>{post.readTime}</span>
+          <span>{readTime}</span>
           <span aria-hidden="true">·</span>
           <time dateTime={post.date}>{formatDate(post.date)}</time>
         </div>
@@ -153,14 +156,15 @@ export default function InsightsPosts({ initialPosts }: InsightsPostsProps) {
 
   // Compute categories dynamically from the actual fetched posts
   const categories = useMemo(() => {
-    const uniqueCats = Array.from(new Set(initialPosts.map((p) => p.category)));
+    const uniqueCats = Array.from(new Set(initialPosts.map((p) => p.category || "General")));
     return [ALL_CATEGORIES, ...uniqueCats];
   }, [initialPosts]);
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
     let result = initialPosts.filter((p) => {
-      const matchesCategory = activeCategory === ALL_CATEGORIES || p.category === activeCategory;
+      const postCategory = p.category || "General";
+      const matchesCategory = activeCategory === ALL_CATEGORIES || postCategory === activeCategory;
       const matchesSearch =
         q === "" || p.title.toLowerCase().includes(q) || p.excerpt.toLowerCase().includes(q);
       return matchesCategory && matchesSearch;

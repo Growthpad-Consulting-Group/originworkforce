@@ -17,10 +17,37 @@ export const client = projectId
 
 const builder = client ? createImageUrlBuilder(client) : null;
 
-// Extends the original Post type to support Sanity's coverImage and rich text body
-export interface SanityPost extends Post {
+// Extends the original Post type to support Sanity's coverImage, rich text body, tags, and SEO fields
+export interface SanityPost extends Omit<Post, "readTime"> {
+  readTime?: string; // made optional since we compute it dynamically on the frontend
   coverImage?: any;
   body?: any;
+  tags?: string[];
+  seoTitle?: string;
+  seoDescription?: string;
+}
+
+// Helper to extract plain text from Sanity's PortableText block content
+export function blocksToText(blocks: any[]): string {
+  if (!blocks || !Array.isArray(blocks)) return "";
+  return blocks
+    .map((block) => {
+      if (block._type !== "block" || !block.children) {
+        return "";
+      }
+      return block.children.map((child: any) => child.text).join("");
+    })
+    .filter(Boolean)
+    .join("\n\n");
+}
+
+// Helper to calculate reading time dynamically based on body content (average 200 wpm)
+export function calculateReadTime(blocks: any[]): string {
+  const text = blocksToText(blocks);
+  const wordCount = text.split(/\s+/).filter(Boolean).length;
+  if (wordCount === 0) return "3 min read"; // reasonable default
+  const minutes = Math.ceil(wordCount / 200);
+  return `${minutes} min read`;
 }
 
 export function urlFor(source: any) {
@@ -40,11 +67,13 @@ export async function getPosts(): Promise<SanityPost[]> {
         title,
         "slug": slug.current,
         excerpt,
-        category,
-        readTime,
+        "category": category->title,
         date,
         coverImage,
-        body
+        body,
+        tags,
+        seoTitle,
+        seoDescription
       }`
     );
     if (sanityPosts && sanityPosts.length > 0) {
@@ -69,11 +98,13 @@ export async function getPostBySlug(slug: string): Promise<SanityPost | null> {
         title,
         "slug": slug.current,
         excerpt,
-        category,
-        readTime,
+        "category": category->title,
         date,
         coverImage,
-        body
+        body,
+        tags,
+        seoTitle,
+        seoDescription
       }`,
       { slug }
     );
