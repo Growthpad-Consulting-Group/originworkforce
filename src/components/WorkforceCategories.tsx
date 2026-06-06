@@ -29,16 +29,16 @@ export default function WorkforceCategories() {
         {/* Grid */}
         <div className="border-t border-l border-brand-gray/20 bg-white">
           <StaggerContainer className="grid grid-cols-2 lg:grid-cols-3">
-            {sectors.map(({ number, title, tags }) => (
+            {sectors.map(({ eyebrow, title }, i) => (
               <StaggerItem
-                key={number}
+                key={title}
                 className="group border-b border-r border-brand-gray/20 p-8 flex flex-col gap-3 font-semibold transition-colors duration-300 hover:bg-brand-navy cursor-default"
               >
                 <span className="font-serif text-2xl italic text-brand-gold transition-colors duration-300 group-hover:text-brand-gold">
-                  {number}
+                  {String(i + 1).padStart(2, "0")}
                 </span>
                 <p className="text-lg font-semibold text-brand-navy transition-colors duration-300 group-hover:text-white">{title}</p>
-                <p className="text-sm text-brand-gray transition-colors duration-300 group-hover:text-white/50">{tags}</p>
+                <p className="text-sm text-brand-gray transition-colors duration-300 group-hover:text-white/50">{eyebrow}</p>
               </StaggerItem>
             ))}
           </StaggerContainer>
