@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Icon } from "@iconify/react";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import ReCAPTCHA from "@/components/contact/ReCAPTCHA";
 
 const enquiryTypes = [
   "Partner Enquiry",
@@ -21,6 +22,13 @@ export default function ContactForm() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+
+  const handleRecaptchaChange = useCallback((token: string | null) => {
+    setRecaptchaToken(token);
+  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -28,10 +36,51 @@ export default function ContactForm() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: wire to form handler / email service
-    setSubmitted(true);
+    
+    // Client-side validation check (in addition to HTML5 browser-level checks)
+    if (!form.enquiryType || !form.name || !form.email || !form.message) {
+      setError("Please fill out all fields.");
+      return;
+    }
+
+    if (!recaptchaToken) {
+      setError("Please check the reCAPTCHA box to verify you are human.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...form, recaptchaToken }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "An error occurred while sending your message. Please try again.");
+      }
+
+      setSubmitted(true);
+    } catch (err: any) {
+      setError(err.message || "Failed to send message. Please try again.");
+      // Reset reCAPTCHA widget on error so they can tick it again
+      if ((window as any).grecaptcha) {
+        try {
+          (window as any).grecaptcha.reset();
+        } catch (e) {}
+      }
+      setRecaptchaToken(null);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const inputClass =
@@ -86,6 +135,14 @@ export default function ContactForm() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-8" noValidate>
+
+                {/* Error Banner */}
+                {error && (
+                  <div className="flex items-center gap-3 border border-red-500/20 bg-red-50/50 p-4 text-sm text-red-800 rounded">
+                    <Icon icon="lucide:alert-circle" width={18} className="shrink-0 text-red-500" />
+                    <span>{error}</span>
+                  </div>
+                )}
 
                 {/* Enquiry type */}
                 <div className="flex flex-col gap-2">
@@ -154,11 +211,27 @@ export default function ContactForm() {
                   />
                 </div>
 
+                {/* reCAPTCHA widget */}
+                <div className="my-2">
+                  <ReCAPTCHA
+                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"}
+                    onChange={handleRecaptchaChange}
+                  />
+                </div>
+
                 <button
                   type="submit"
-                  className="self-start bg-brand-gold px-10 py-4 text-xs font-semibold uppercase tracking-widest text-brand-navy transition-colors duration-300 hover:bg-brand-gold/80"
+                  disabled={isSubmitting}
+                  className="self-start bg-brand-gold px-10 py-4 text-xs font-semibold uppercase tracking-widest text-brand-navy transition-colors duration-300 hover:bg-brand-gold/80 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
-                  Contact Origin Workforce
+                  {isSubmitting ? (
+                    <>
+                      <Icon icon="lucide:loader-2" className="animate-spin" width={14} />
+                      Sending...
+                    </>
+                  ) : (
+                    "Contact Origin Workforce"
+                  )}
                 </button>
 
               </form>
