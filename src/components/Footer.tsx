@@ -63,12 +63,12 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Col 3 — Nav links */}
+          {/* Col 3 — Nav links, two columns */}
           <div className="flex flex-col gap-5">
             <p className="text-sm font-semibold uppercase tracking-widest text-brand-gold">
               Quicklinks
             </p>
-            <nav className="flex flex-col gap-3">
+            <nav className="grid grid-cols-2 gap-x-8 gap-y-3">
               {footerLinks.map(({ label, href }) => (
                 <Link
                   key={href}
