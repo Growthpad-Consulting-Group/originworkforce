@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Icon } from "@iconify/react";
 import { navLinks } from "@/data/nav";
 
@@ -11,6 +12,9 @@ const footerLinks = [
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
+  if (pathname?.startsWith("/studio")) return null;
+
   return (
     <footer className="bg-brand-light relative overflow-hidden">
       {/* Background texture */}

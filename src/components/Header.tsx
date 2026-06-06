@@ -26,6 +26,8 @@ export default function Header() {
 
   const isGlass = scrolled || menuOpen;
 
+  if (pathname?.startsWith("/studio")) return null;
+
   return (
     <>
       <div className="h-24" />

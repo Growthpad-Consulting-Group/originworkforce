@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import InsightsHero from "@/components/insights/InsightsHero";
 import InsightsPosts from "@/components/insights/InsightsPosts";
+import { getPosts } from "@/lib/sanity";
 
 export const metadata: Metadata = {
   title: "Insights",
@@ -9,11 +10,13 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://originworkforce.africa/insights" },
 };
 
-export default function InsightsPage() {
+export default async function InsightsPage() {
+  const posts = await getPosts();
+
   return (
     <>
       <InsightsHero />
-      <InsightsPosts />
+      <InsightsPosts initialPosts={posts} />
     </>
   );
 }

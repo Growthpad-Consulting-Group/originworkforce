@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Figtree, Crimson_Pro } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -31,6 +32,7 @@ export const metadata: Metadata = {
     "workforce compliance Africa",
     "global staffing Africa",
     "labour migration Kenya",
+    "candidate sourcing Nairobi",
   ],
   authors: [{ name: "Origin Workforce", url: "https://originworkforce.africa" }],
   creator: "Origin Workforce",
@@ -78,12 +80,28 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID || "G-ZHXWCRHBJN";
+
   return (
     <html
       lang="en"
       className={`${figtree.variable} ${crimsonPro.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        {/* Google Analytics Script */}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${gaId}');
+          `}
+        </Script>
+
         <Header />
         {children}
         <Footer />

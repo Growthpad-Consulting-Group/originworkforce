@@ -6,10 +6,10 @@ export default function ContactHero() {
   return (
     <section className="relative bg-brand-navy -mt-24 overflow-hidden">
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-[0.07]"
+        className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: "url('/assets/images/our-service-hero.png')" }}
       />
-      <div className="absolute inset-0 bg-linear-to-b from-brand-navy/40 via-brand-navy/50 to-brand-navy/80" />
+      <div className="absolute inset-0 bg-linear-to-b from-brand-navy/60 via-brand-navy/60 to-brand-navy/80" />
       <div className="relative mx-auto max-w-7xl px-6 md:px-2 pt-48 pb-20 lg:pt-56 lg:pb-28">
         <ScrollReveal>
           <div className="flex flex-col gap-5 max-w-2xl">

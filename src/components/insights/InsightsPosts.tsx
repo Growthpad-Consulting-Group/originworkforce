@@ -2,8 +2,10 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
-import { posts, type Post } from "@/data/insights";
+import { type Post } from "@/data/insights";
+import { urlFor, type SanityPost } from "@/lib/sanity";
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -19,15 +21,27 @@ function formatDate(iso: string) {
 
 // ─── Card ────────────────────────────────────────────────────────────────────
 
-function PostCard({ post }: { post: Post }) {
+function PostCard({ post }: { post: SanityPost }) {
+  const coverImageUrl = post.coverImage ? urlFor(post.coverImage)?.width(600).height(400).url() : null;
+
   return (
     <Link
       href={`/insights/${post.slug}`}
       className="group flex flex-col bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
       aria-label={`Read article: ${post.title}`}
     >
-      <div className="relative h-48 shrink-0 overflow-hidden" style={{ backgroundColor: post.coverColor }}>
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+      <div className="relative h-48 shrink-0 overflow-hidden" style={{ backgroundColor: !coverImageUrl ? (post.coverColor || "#1A253C") : undefined }}>
+        {coverImageUrl ? (
+          <Image
+            src={coverImageUrl}
+            alt={post.title}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+          />
+        ) : (
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+        )}
       </div>
       <div className="flex flex-col gap-3 p-6 flex-1">
         <span className="text-xs font-semibold uppercase tracking-widest text-brand-gold">{post.category}</span>
@@ -127,17 +141,25 @@ const SORT_OPTIONS = [
 ] as const;
 type SortValue = (typeof SORT_OPTIONS)[number]["value"];
 
-const categories = [ALL_CATEGORIES, ...Array.from(new Set(posts.map((p) => p.category)))];
+interface InsightsPostsProps {
+  initialPosts: SanityPost[];
+}
 
-export default function InsightsPosts() {
+export default function InsightsPosts({ initialPosts }: InsightsPostsProps) {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState(ALL_CATEGORIES);
   const [sort, setSort] = useState<SortValue>("newest");
   const [currentPage, setCurrentPage] = useState(1);
 
+  // Compute categories dynamically from the actual fetched posts
+  const categories = useMemo(() => {
+    const uniqueCats = Array.from(new Set(initialPosts.map((p) => p.category)));
+    return [ALL_CATEGORIES, ...uniqueCats];
+  }, [initialPosts]);
+
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
-    let result = posts.filter((p) => {
+    let result = initialPosts.filter((p) => {
       const matchesCategory = activeCategory === ALL_CATEGORIES || p.category === activeCategory;
       const matchesSearch =
         q === "" || p.title.toLowerCase().includes(q) || p.excerpt.toLowerCase().includes(q);
@@ -149,7 +171,7 @@ export default function InsightsPosts() {
     else if (sort === "az") result = result.sort((a, b) => a.title.localeCompare(b.title));
 
     return result;
-  }, [search, activeCategory, sort]);
+  }, [initialPosts, search, activeCategory, sort]);
 
   const totalPages = Math.ceil(filtered.length / POSTS_PER_PAGE);
 

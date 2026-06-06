@@ -1,12 +1,66 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
-import { posts } from "@/data/insights";
+import { PortableText } from "@portabletext/react";
+import { getPosts, getPostBySlug, urlFor, type SanityPost } from "@/lib/sanity";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
+
+// ─── PortableText Rendering Components ────────────────────────────────────────
+
+const portableTextComponents = {
+  types: {
+    image: ({ value }: any) => {
+      const imgUrl = urlFor(value)?.width(800).url();
+      if (!imgUrl) return null;
+      return (
+        <div className="my-8 relative rounded-sm overflow-hidden max-w-3xl mx-auto shadow-xs border border-brand-gray/10">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={imgUrl} alt="Article image" className="w-full h-auto object-cover" />
+        </div>
+      );
+    },
+  },
+  block: {
+    normal: ({ children }: any) => <p className="mb-6 text-brand-gray text-base lg:text-lg leading-relaxed">{children}</p>,
+    h2: ({ children }: any) => <h2 className="text-2xl lg:text-3xl font-semibold text-brand-navy mt-12 mb-4 leading-tight">{children}</h2>,
+    h3: ({ children }: any) => <h3 className="text-xl lg:text-2xl font-semibold text-brand-navy mt-8 mb-3 leading-tight">{children}</h3>,
+    blockquote: ({ children }: any) => (
+      <blockquote className="border-l-4 border-brand-gold bg-brand-gold/5 pl-6 py-4 pr-4 my-8 italic text-brand-navy rounded-sm font-serif text-lg leading-relaxed">
+        {children}
+      </blockquote>
+    ),
+  },
+  list: {
+    bullet: ({ children }: any) => <ul className="list-disc pl-6 mb-6 text-brand-gray flex flex-col gap-2 text-base lg:text-lg">{children}</ul>,
+    number: ({ children }: any) => <ol className="list-decimal pl-6 mb-6 text-brand-gray flex flex-col gap-2 text-base lg:text-lg">{children}</ol>,
+  },
+  listItem: {
+    bullet: ({ children }: any) => <li>{children}</li>,
+    number: ({ children }: any) => <li>{children}</li>,
+  },
+  marks: {
+    link: ({ children, value }: any) => {
+      const rel = !value.href.startsWith("/") ? "noreferrer noopener" : undefined;
+      return (
+        <a
+          href={value.href}
+          rel={rel}
+          target={rel ? "_blank" : undefined}
+          className="text-brand-gold hover:text-brand-navy font-semibold underline underline-offset-4 transition-colors"
+        >
+          {children}
+        </a>
+      );
+    },
+    bold: ({ children }: any) => <strong className="font-semibold text-brand-navy">{children}</strong>,
+  },
+};
 
 // ─── Static params ────────────────────────────────────────────────────────────
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const posts = await getPosts();
   return posts.map((post) => ({ slug: post.slug }));
 }
 
@@ -18,7 +72,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = posts.find((p) => p.slug === slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     return { title: "Article Not Found" };
@@ -48,9 +102,11 @@ function formatDate(iso: string) {
   });
 }
 
-// ─── Related card (reuses same visual style as InsightsPosts) ─────────────────
+// ─── Related card ─────────────────────────────────────────────────────────────
 
-function RelatedCard({ post }: { post: (typeof posts)[0] }) {
+function RelatedCard({ post }: { post: SanityPost }) {
+  const coverImageUrl = post.coverImage ? urlFor(post.coverImage)?.width(600).height(400).url() : null;
+
   return (
     <Link
       href={`/insights/${post.slug}`}
@@ -58,10 +114,20 @@ function RelatedCard({ post }: { post: (typeof posts)[0] }) {
       aria-label={`Read article: ${post.title}`}
     >
       <div
-        className="h-36 shrink-0"
-        style={{ backgroundColor: post.coverColor }}
+        className="h-36 shrink-0 relative overflow-hidden"
+        style={{ backgroundColor: !coverImageUrl ? (post.coverColor || "#1A253C") : undefined }}
         aria-hidden="true"
-      />
+      >
+        {coverImageUrl && (
+          <Image
+            src={coverImageUrl}
+            alt={post.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+          />
+        )}
+      </div>
       <div className="flex flex-col gap-2 p-5 flex-1">
         <span className="text-xs font-semibold uppercase tracking-widest text-brand-gold">
           {post.category}
@@ -85,11 +151,13 @@ export default async function InsightArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = posts.find((p) => p.slug === slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) notFound();
 
-  const related = posts
+  const allPosts = await getPosts();
+
+  const related = allPosts
     .filter((p) => p.slug !== post.slug && p.category === post.category)
     .slice(0, 3);
 
@@ -98,24 +166,36 @@ export default async function InsightArticlePage({
     related.length < 3
       ? [
           ...related,
-          ...posts
+          ...allPosts
             .filter((p) => p.slug !== post.slug && p.category !== post.category)
             .slice(0, 3 - related.length),
         ]
       : related;
+
+  const heroImageUrl = post.coverImage ? urlFor(post.coverImage)?.width(1600).height(600).url() : null;
 
   return (
     <main className="bg-brand-light min-h-screen">
 
       {/* ── Hero ── */}
       <section
-        className="relative -mt-24 overflow-hidden min-h-[480px] flex items-end"
-        style={{ backgroundColor: post.coverColor }}
+        className="relative -mt-24 overflow-hidden min-h-[480px] flex items-end bg-brand-navy"
+        style={{ backgroundColor: !heroImageUrl ? (post.coverColor || "#1A253C") : undefined }}
       >
+        {heroImageUrl && (
+          <Image
+            src={heroImageUrl}
+            alt=""
+            fill
+            priority
+            className="object-cover object-center opacity-40"
+          />
+        )}
+        
         {/* Dark gradient overlay — heavier at bottom for text legibility */}
-        <div className="absolute inset-0 bg-linear-to-b from-black/30 via-black/40 to-black/75" />
+        <div className="absolute inset-0 bg-linear-to-b from-black/30 via-black/40 to-black/75 z-10" />
 
-        <div className="relative mx-auto w-full max-w-7xl px-6 md:px-0 pb-12 pt-40">
+        <div className="relative mx-auto w-full max-w-7xl px-6 md:px-0 pb-12 pt-40 z-20">
           {/* Back link */}
           <Link
             href="/insights"
@@ -145,20 +225,23 @@ export default async function InsightArticlePage({
       </section>
 
       {/* ── Article body ── */}
-      <div className="mx-auto max-w-6xl px-6 py-16">
-
-        {/* Article body placeholder */}
+      <div className="mx-auto max-w-3xl px-6 py-16">
         <ScrollReveal>
-          <article>
-            <p className="text-brand-gray leading-relaxed text-lg mb-6">{post.excerpt}</p>
-            <div className="rounded-sm border border-brand-gold/30 bg-brand-gold/5 px-6 py-5">
-              <p className="text-sm font-medium text-brand-navy italic font-serif">
-                Article content will be loaded from Sanity CMS.
-              </p>
-            </div>
-          </article>
+          {post.body ? (
+            <article className="prose max-w-none text-brand-navy">
+              <PortableText value={post.body} components={portableTextComponents} />
+            </article>
+          ) : (
+            <article>
+              <p className="text-brand-gray leading-relaxed text-lg mb-6">{post.excerpt}</p>
+              <div className="rounded-sm border border-brand-gold/30 bg-brand-gold/5 px-6 py-5">
+                <p className="text-sm font-medium text-brand-navy italic font-serif">
+                  Article content will be loaded from Sanity CMS once available.
+                </p>
+              </div>
+            </article>
+          )}
         </ScrollReveal>
-
       </div>
 
       {/* Related posts */}
