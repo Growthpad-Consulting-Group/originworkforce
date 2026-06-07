@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { PortableText } from "@portabletext/react";
 import { getPosts, getPostBySlug, urlFor, blocksToText, calculateReadTime, type SanityPost } from "@/lib/sanity";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
+import ArticleSidebar from "@/components/insights/ArticleSidebar";
 
 // ─── PortableText Rendering Components ────────────────────────────────────────
 
@@ -23,8 +24,16 @@ const portableTextComponents = {
   },
   block: {
     normal: ({ children }: any) => <p className="mb-6 text-brand-gray text-base lg:text-lg leading-relaxed">{children}</p>,
-    h2: ({ children }: any) => <h2 className="text-2xl lg:text-3xl font-semibold text-brand-navy mt-12 mb-4 leading-tight">{children}</h2>,
-    h3: ({ children }: any) => <h3 className="text-xl lg:text-2xl font-semibold text-brand-navy mt-8 mb-3 leading-tight">{children}</h3>,
+    h2: ({ children, value }: any) => {
+      const text = value.children ? value.children.map((c: any) => c.text).join("") : "";
+      const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+      return <h2 id={id} className="text-2xl lg:text-3xl font-semibold text-brand-navy mt-12 mb-4 leading-tight scroll-mt-24">{children}</h2>;
+    },
+    h3: ({ children, value }: any) => {
+      const text = value.children ? value.children.map((c: any) => c.text).join("") : "";
+      const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+      return <h3 id={id} className="text-xl lg:text-2xl font-semibold text-brand-navy mt-8 mb-3 leading-tight scroll-mt-24">{children}</h3>;
+    },
     blockquote: ({ children }: any) => (
       <blockquote className="border-l-4 border-brand-gold bg-brand-gold/5 pl-6 py-4 pr-4 my-8 italic text-brand-navy rounded-sm font-serif text-lg leading-relaxed">
         {children}
@@ -162,6 +171,19 @@ export default async function InsightArticlePage({
 
   if (!post) notFound();
 
+  const headings = post.body
+    ? post.body
+        .filter((block: any) => block._type === "block" && (block.style === "h2" || block.style === "h3"))
+        .map((block: any) => {
+          const text = block.children ? block.children.map((c: any) => c.text).join("") : "";
+          const id = text
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/(^-|-$)/g, "");
+          return { text, id, style: block.style };
+        })
+    : [];
+
   const allPosts = await getPosts();
 
   const postCategory = post.category || "General";
@@ -235,23 +257,35 @@ export default async function InsightArticlePage({
       </section>
 
       {/* ── Article body ── */}
-      <div className="mx-auto max-w-3xl px-6 py-16">
-        <ScrollReveal>
-          {post.body ? (
-            <article className="prose max-w-none text-brand-navy">
-              <PortableText value={post.body} components={portableTextComponents} />
-            </article>
-          ) : (
-            <article>
-              <p className="text-brand-gray leading-relaxed text-lg mb-6">{excerpt}</p>
-              <div className="rounded-sm border border-brand-gold/30 bg-brand-gold/5 px-6 py-5">
-                <p className="text-sm font-medium text-brand-navy italic font-serif">
-                  Article content will be loaded from Sanity CMS once available.
-                </p>
-              </div>
-            </article>
-          )}
-        </ScrollReveal>
+      <div className="mx-auto max-w-7xl px-6 py-16">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+          {/* Main Content */}
+          <div className="lg:col-span-8">
+            <ScrollReveal>
+              {post.body ? (
+                <article className="prose max-w-none text-brand-navy">
+                  <PortableText value={post.body} components={portableTextComponents} />
+                </article>
+              ) : (
+                <article>
+                  <p className="text-brand-gray leading-relaxed text-lg mb-6">{excerpt}</p>
+                  <div className="rounded-sm border border-brand-gold/30 bg-brand-gold/5 px-6 py-5">
+                    <p className="text-sm font-medium text-brand-navy italic font-serif">
+                      Article content will be loaded from Sanity CMS once available.
+                    </p>
+                  </div>
+                </article>
+              )}
+            </ScrollReveal>
+          </div>
+
+          {/* Sidebar */}
+          <aside className="lg:col-span-4">
+            <div className="sticky top-28">
+              <ArticleSidebar headings={headings} />
+            </div>
+          </aside>
+        </div>
       </div>
 
       {/* Related posts */}

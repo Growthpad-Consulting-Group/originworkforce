@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
@@ -18,7 +18,24 @@ const VISIBLE = 3;
 
 export default function HowItWorks() {
   const [current, setCurrent] = useState(0);
-  const max = steps.length - VISIBLE;
+  const [visibleCount, setVisibleCount] = useState(3);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setVisibleCount(1);
+      } else if (window.innerWidth < 1024) {
+        setVisibleCount(2);
+      } else {
+        setVisibleCount(3);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const max = steps.length - visibleCount;
 
   const prev = () => setCurrent((c) => Math.max(c - 1, 0));
   const next = () => setCurrent((c) => Math.min(c + 1, steps.length - 1));
@@ -53,7 +70,7 @@ export default function HowItWorks() {
             onClick={prev}
             disabled={current === 0}
             aria-label="Previous"
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-full flex h-10 w-10 items-center justify-center bg-white/10 text-white transition-colors duration-300 disabled:opacity-30 hover:bg-white/20 z-10"
+            className="absolute left-2 lg:left-0 lg:-translate-x-full top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center bg-white/10 text-white transition-colors duration-300 disabled:opacity-30 hover:bg-white/20 z-10"
           >
             <Icon icon="lucide:arrow-left" width={18} height={18} />
           </button>
@@ -62,16 +79,16 @@ export default function HowItWorks() {
           <div className="overflow-hidden">
             <div
               className="flex gap-3 transition-transform duration-500 ease-in-out"
-              style={{ transform: `translateX(calc(-${offset} * (100% / ${VISIBLE} + ${12 / VISIBLE}px)))` }}
+              style={{ transform: `translateX(calc(-${offset} * (100% / ${visibleCount} + ${12 / visibleCount}px)))` }}
             >
             {steps.map((step, i) => {
-                const isActive = i >= current && i < current + VISIBLE;
+                const isActive = i >= current && i < current + visibleCount;
                 return (
                   <div
                     key={step.number}
                     className="flex shrink-0 flex-col gap-6 p-8 transition-all duration-500"
                     style={{
-                      width: `calc((100% - ${(VISIBLE - 1) * 12}px) / ${VISIBLE})`,
+                      width: `calc((100% - ${(visibleCount - 1) * 12}px) / ${visibleCount})`,
                       backgroundColor: i === current ? "#0E2634" : "transparent",
                       opacity: i === current ? 1 : isActive ? 0.45 : 0.15,
                     }}
@@ -97,7 +114,7 @@ export default function HowItWorks() {
             onClick={next}
             disabled={current === steps.length - 1}
             aria-label="Next"
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full flex h-10 w-10 items-center justify-center bg-brand-gold text-brand-navy transition-colors duration-300 disabled:opacity-30 hover:bg-brand-gold/80 z-10"
+            className="absolute right-2 lg:right-0 lg:translate-x-full top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center bg-brand-gold text-brand-navy transition-colors duration-300 disabled:opacity-30 hover:bg-brand-gold/80 z-10"
           >
             <Icon icon="lucide:arrow-right" width={18} height={18} />
           </button>

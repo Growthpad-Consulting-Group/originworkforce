@@ -1,4 +1,41 @@
-import { defineField, defineType } from "sanity";
+import { defineField, defineType, useFormValue, set, unset } from "sanity";
+import { useEffect, useRef } from "react";
+
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+function AutoSlugInput(props: any) {
+  const title = useFormValue(["title"]) as string | undefined;
+  const { onChange, value } = props;
+  const prevTitleRef = useRef<string | undefined>(undefined);
+
+  useEffect(() => {
+    const prevTitle = prevTitleRef.current;
+    prevTitleRef.current = title;
+
+    if (!title) {
+      return;
+    }
+
+    const currentSlug = value?.current || "";
+    const prevGenerated = prevTitle ? slugify(prevTitle) : "";
+    const nextGenerated = slugify(title);
+
+    // Update if slug is empty OR matches the generated slug from the previous title
+    if (!currentSlug || currentSlug === prevGenerated) {
+      if (currentSlug !== nextGenerated) {
+        onChange(nextGenerated ? set({ _type: "slug", current: nextGenerated }) : unset());
+      }
+    }
+  }, [title, value?.current, onChange]);
+
+  return props.renderDefault(props);
+}
 
 export const post = defineType({
   name: "post",
@@ -26,6 +63,9 @@ export const post = defineType({
         source: "title",
         maxLength: 96,
       },
+      components: {
+        input: AutoSlugInput,
+      },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -45,6 +85,7 @@ export const post = defineType({
       name: "date",
       title: "Published Date",
       type: "date",
+      initialValue: () => new Date().toISOString().split("T")[0],
       validation: (Rule) => Rule.required(),
     }),
     defineField({
