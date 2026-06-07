@@ -10,9 +10,11 @@ interface Heading {
 
 interface ArticleSidebarProps {
   headings: Heading[];
+  articleUrl: string;
+  articleTitle: string;
 }
 
-export default function ArticleSidebar({ headings }: ArticleSidebarProps) {
+export default function ArticleSidebar({ headings, articleUrl, articleTitle }: ArticleSidebarProps) {
   const [activeId, setActiveId] = useState<string>("");
   const [copied, setCopied] = useState(false);
   const headingsRef = useRef<Heading[]>(headings);
@@ -63,24 +65,18 @@ export default function ArticleSidebar({ headings }: ArticleSidebarProps) {
 
   const handleCopyLink = () => {
     if (typeof window !== "undefined") {
-      navigator.clipboard.writeText(window.location.href);
+      navigator.clipboard.writeText(articleUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
   };
 
   const getLinkedInShareUrl = () => {
-    if (typeof window !== "undefined") {
-      return `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`;
-    }
-    return "#";
+    return `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(articleUrl)}`;
   };
 
   const getTwitterShareUrl = () => {
-    if (typeof window !== "undefined") {
-      return `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(document.title)}`;
-    }
-    return "#";
+    return `https://twitter.com/intent/tweet?url=${encodeURIComponent(articleUrl)}&text=${encodeURIComponent(articleTitle)}`;
   };
 
   const scrollToHeading = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {

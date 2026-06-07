@@ -184,6 +184,9 @@ export default async function InsightArticlePage({
         })
     : [];
 
+  const articleUrl = `https://originworkforce.africa/insights/${post.slug}`;
+  const articleTitle = post.title;
+
   const allPosts = await getPosts();
 
   const postCategory = post.category || "General";
@@ -282,7 +285,7 @@ export default async function InsightArticlePage({
           {/* Sidebar */}
           <aside className="lg:col-span-4">
             <div className="sticky top-28">
-              <ArticleSidebar headings={headings} />
+              <ArticleSidebar headings={headings} articleUrl={articleUrl} articleTitle={articleTitle} />
             </div>
           </aside>
         </div>
