@@ -74,7 +74,9 @@ export async function getPosts(): Promise<SanityPost[]> {
         tags,
         seoTitle,
         seoDescription
-      }`
+      }`,
+      {},
+      { next: { revalidate: 60, tags: ["post"] } }
     );
     if (sanityPosts && sanityPosts.length > 0) {
       return sanityPosts;
@@ -106,7 +108,8 @@ export async function getPostBySlug(slug: string): Promise<SanityPost | null> {
         seoTitle,
         seoDescription
       }`,
-      { slug }
+      { slug },
+      { next: { revalidate: 60, tags: ["post"] } }
     );
     if (sanityPost) {
       return sanityPost;
