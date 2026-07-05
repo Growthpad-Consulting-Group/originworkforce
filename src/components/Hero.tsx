@@ -20,7 +20,7 @@ export default function Hero() {
               <p className="mt-2 font-serif text-4xl font-medium italic text-brand-gold sm:text-5xl lg:text-6xl">
                 global workforce
                 <br />
-                mobility from Africa.
+                mobility from Africa. 
               </p>
             </div>
 
