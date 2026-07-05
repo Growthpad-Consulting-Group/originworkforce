@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
-import { posts } from "@/data/insights";
+import { getPosts } from "@/lib/sanity";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://originworkforce.africa";
+  const posts = await getPosts();
 
   // Define the core static pages of the application
   const staticRoutes = [
